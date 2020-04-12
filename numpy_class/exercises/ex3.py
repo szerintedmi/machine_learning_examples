@@ -7,28 +7,14 @@ from builtins import range, input
 # Note: you may need to update your version of future
 # sudo pip install -U future
 
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
 # load in the data
 df = pd.read_csv('../../large_files/train.csv')
-data = df.values
-X = data[:, 1:] # images
-Y = data[:, 0] # labels
 
-# loop through each label
-for k in range(10):
-  Xk = X[Y == k]
+im = df.groupby(['label']).mean().values.reshape(280,28)
 
-  # mean image
-  Mk = Xk.mean(axis=0)
-
-  # reshape into an image
-  im = Mk.reshape(28, 28)
-
-  # plot the image
-  plt.imshow(im, cmap='gray')
-  plt.title("Label: %s" % k)
-  plt.show()
+plt.figure(figsize = (20,20)) 
+plt.imshow(255-im, cmap="gray")
